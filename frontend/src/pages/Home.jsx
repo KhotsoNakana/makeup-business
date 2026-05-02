@@ -68,7 +68,7 @@ function Home() {
         <div className="review">“Very professional. I will definitely book again.”</div>
       </section>
 
-      <a className="whatsapp" href="https://wa.me/27810000000" target="_blank">
+      <a className="whatsapp" href="https://wa.me/27608203355" target="_blank">
         WhatsApp
       </a>
     </main>
