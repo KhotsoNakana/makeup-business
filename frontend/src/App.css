@@ -1,0 +1,306 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #fff7fb;
+  color: #2b2b2b;
+}
+
+.navbar {
+  background: white;
+  padding: 18px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar h2 {
+  color: #b1125b;
+  margin: 0;
+}
+
+.navbar a {
+  margin-left: 20px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar a:hover {
+  color: #b1125b;
+}
+
+.hero {
+  min-height: 85vh;
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 0 8%;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 55px;
+  max-width: 700px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 20px;
+  max-width: 550px;
+}
+
+.btn,
+button {
+  background: #b1125b;
+  color: white;
+  padding: 13px 22px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}
+
+button:hover,
+.btn:hover {
+  background: #8f0f49;
+}
+
+.section {
+  padding: 70px 8%;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 36px;
+  color: #b1125b;
+}
+
+.light {
+  background: #ffe8f2;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  margin-top: 35px;
+}
+
+.card,
+.booking-card,
+.admin-card {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  color: #b1125b;
+}
+
+.review {
+  background: white;
+  max-width: 650px;
+  margin: 15px auto;
+  padding: 20px;
+  border-radius: 15px;
+  font-style: italic;
+}
+
+.page {
+  min-height: 80vh;
+  padding: 50px 8%;
+}
+
+.booking-card {
+  max-width: 650px;
+  margin: auto;
+}
+
+.booking-card.small {
+  max-width: 420px;
+}
+
+.booking-card h1 {
+  color: #b1125b;
+}
+
+form {
+  margin-top: 25px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  margin-top: 7px;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+textarea {
+  height: 90px;
+}
+
+.message {
+  margin-top: 18px;
+  font-weight: bold;
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.admin-card h3 {
+  color: #b1125b;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-actions button {
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.danger {
+  background: #c62828;
+}
+
+.whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: #25d366;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  background: #2b2b2b;
+  color: white;
+  padding: 25px;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero {
+    text-align: center;
+    justify-content: center;
+  }
+}
+.message {
+  margin: 15px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #ffe6ef;
+  color: #7a1235;
+  font-weight: 600;
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.form-card textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-card button,
+.table-box button {
+  padding: 12px 18px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  background: #d63384;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.table-box {
+  margin-top: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  overflow-x: auto;
+}
+
+.table-box table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-box th,
+.table-box td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.table-box th {
+  background: #fff0f6;
+}
