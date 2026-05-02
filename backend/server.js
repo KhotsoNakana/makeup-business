@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const mysql = require("mysql2");
 
 dotenv.config();
 
@@ -12,40 +11,24 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+let bookings = [];
+let contactMessages = [];
 
-db.connect((error) => {
-  if (error) {
-    console.error("Database connection failed:", error.message);
-    return;
-  }
-
-  console.log("Connected to MySQL database");
-});
+const services = [
+  { id: 1, name: "Soft Glam Makeup", price: 350 },
+  { id: 2, name: "Full Glam Makeup", price: 500 },
+  { id: 3, name: "Bridal Makeup", price: 1200 },
+  { id: 4, name: "Photoshoot Makeup", price: 700 },
+];
 
 app.get("/", (req, res) => {
   res.send("Makeup business backend is running");
 });
 
-// Get all services
 app.get("/api/services", (req, res) => {
-  const sql = "SELECT * FROM services ORDER BY id DESC";
-
-  db.query(sql, (error, results) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to get services" });
-    }
-
-    res.json(results);
-  });
+  res.json(services);
 });
 
-// Create a booking
 app.post("/api/bookings", (req, res) => {
   const {
     fullName,
@@ -72,87 +55,56 @@ app.post("/api/bookings", (req, res) => {
     return res.status(400).json({ message: "Please fill in all required fields" });
   }
 
-  const sql = `
-    INSERT INTO bookings 
-    (full_name, email, phone, service, booking_date, booking_time, location, payment_method, notes, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-
-  const values = [
-    fullName,
+  const newBooking = {
+    id: bookings.length + 1,
+    full_name: fullName,
     email,
     phone,
     service,
-    bookingDate,
-    bookingTime,
+    booking_date: bookingDate,
+    booking_time: bookingTime,
     location,
-    paymentMethod,
-    notes || "",
-    "Pending",
-  ];
+    payment_method: paymentMethod,
+    notes: notes || "",
+    status: "Pending",
+    created_at: new Date().toISOString(),
+  };
 
-  db.query(sql, values, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Failed to create booking" });
-    }
+  bookings.push(newBooking);
 
-    res.status(201).json({
-      message: "Booking created successfully",
-      bookingId: result.insertId,
-    });
+  res.status(201).json({
+    message: "Booking created successfully",
+    bookingId: newBooking.id,
   });
 });
 
-// Get all bookings for admin dashboard
 app.get("/api/bookings", (req, res) => {
-  const sql = "SELECT * FROM bookings ORDER BY id DESC";
-
-  db.query(sql, (error, results) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to get bookings" });
-    }
-
-    res.json(results);
-  });
+  res.json(bookings.slice().reverse());
 });
 
-// Update booking status
 app.put("/api/bookings/:id/status", (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  if (!status) {
-    return res.status(400).json({ message: "Status is required" });
+  const booking = bookings.find((item) => item.id === Number(id));
+
+  if (!booking) {
+    return res.status(404).json({ message: "Booking not found" });
   }
 
-  const sql = "UPDATE bookings SET status = ? WHERE id = ?";
+  booking.status = status;
 
-  db.query(sql, [status, id], (error) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to update booking status" });
-    }
-
-    res.json({ message: "Booking status updated successfully" });
-  });
+  res.json({ message: "Booking status updated successfully" });
 });
 
-// Delete booking
 app.delete("/api/bookings/:id", (req, res) => {
   const { id } = req.params;
 
-  const sql = "DELETE FROM bookings WHERE id = ?";
+  bookings = bookings.filter((item) => item.id !== Number(id));
 
-  db.query(sql, [id], (error) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to delete booking" });
-    }
-
-    res.json({ message: "Booking deleted successfully" });
-  });
+  res.json({ message: "Booking deleted successfully" });
 });
 
-// Contact message
 app.post("/api/contact", (req, res) => {
   const { fullName, email, message } = req.body;
 
@@ -160,24 +112,22 @@ app.post("/api/contact", (req, res) => {
     return res.status(400).json({ message: "Please fill in all fields" });
   }
 
-  const sql = `
-    INSERT INTO contact_messages 
-    (full_name, email, message)
-    VALUES (?, ?, ?)
-  `;
+  const newMessage = {
+    id: contactMessages.length + 1,
+    full_name: fullName,
+    email,
+    message,
+    created_at: new Date().toISOString(),
+  };
 
-  db.query(sql, [fullName, email, message], (error, result) => {
-    if (error) {
-      return res.status(500).json({ message: "Failed to send message" });
-    }
+  contactMessages.push(newMessage);
 
-    res.status(201).json({
-      message: "Message sent successfully",
-      messageId: result.insertId,
-    });
+  res.status(201).json({
+    message: "Message sent successfully",
+    messageId: newMessage.id,
   });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
