@@ -6,7 +6,7 @@ function AdminDashboard() {
 
   async function fetchBookings() {
     try {
-      const response = await fetch("http://localhost:5000/api/bookings");
+      const response = await fetch("https://makeup-business-backend.onrender.com/api/bookings");
       const data = await response.json();
       setBookings(data);
     } catch (error) {
@@ -20,7 +20,7 @@ function AdminDashboard() {
 
   async function updateStatus(id, status) {
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings/${id}/status`, {
+      const response = await fetch(`https://makeup-business-backend.onrender.com/api/bookings/${id}/status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function AdminDashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      const response = await fetch(`https://makeup-business-backend.onrender.com/api/bookings/${id}`, {
         method: "DELETE",
       });
 
